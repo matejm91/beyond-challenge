@@ -1,10 +1,11 @@
 import axios from "axios"
+import { Influencer } from "../server/index";
 const influencersService = 'http://localhost:3000';
 
 export default function useInfluencers() {
-  async function fetchInfluencers () {
+  async function fetchInfluencers(sort?: string) {
     try {
-      const response = await axios.get(influencersService)
+      const response = await axios.get(`${influencersService}${sort ? `?filter=${sort}` : ''}`)
       return response.data
     } catch (err) {
       console.log('error: ', err)
@@ -13,7 +14,7 @@ export default function useInfluencers() {
 
   async function postInfluencerByInstaName() {
     try {
-      const newUserData = { 'Influencer insta name': 'new user test', 'instagram name': 'new user', 
+      const newUserData: Influencer = { 'Influencer insta name': 'new user test', 'instagram name': 'new user', 
       'category_1': 'cars',
       'category_2': 'movies',
       'Followers': '10K',
